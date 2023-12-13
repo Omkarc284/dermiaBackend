@@ -2,7 +2,10 @@ const path = require('path');
 require('./db/mongoose')
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const adminRouter = require('./router/adminauth')
+const appointmentRouter = require('./router/appointments')
+const slotRouter = require('./router/slots')
+const branchRouter = require('./router/branches')
 const app = express();
 
 
@@ -19,5 +22,9 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/appointments', appointmentRouter);
+app.use('/admin', adminRouter);
+app.use('/slots', slotRouter);
+app.use('/branch', branchRouter)
 
 module.exports = app;
