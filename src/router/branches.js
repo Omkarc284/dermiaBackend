@@ -16,4 +16,13 @@ router.get('/all', async(req,res,next) => {
     }
 })
 
+router.post('/new', async(req,res,next) => {
+    let branch = new Branch({
+        name : req.body.name,
+    })
+    branch.save()
+    
+    res.status(200).send({branches: branch})
+    
+})
 module.exports = router;

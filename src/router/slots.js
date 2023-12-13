@@ -27,10 +27,19 @@ router.post('/populate', async(req,res,next) => {
         slots : ['9','9.30','10', '10:30', '11', '11:30', '12', '12:30', '1:30', '2', '2:30', '3', '3:30']
     })
     await available_slots.save();
-    available_slots.branch = 'Andheri';
-    await available_slots.save();
-    available_slots.branch = 'Malad';
-    await available_slots.save();
+
+   var available_slots1 = new Slots({
+        branch : 'Andheri',
+        date : date,
+        slots : ['9','9.30','10', '10:30', '11', '11:30', '12', '12:30', '1:30', '2', '2:30', '3', '3:30']
+    })
+    await available_slots1.save();
+    var available_slots2 = new Slots({
+        branch : 'Malad',
+        date : date,
+        slots : ['9','9.30','10', '10:30', '11', '11:30', '12', '12:30', '1:30', '2', '2:30', '3', '3:30']
+    })
+    await available_slots2.save();
     res.status(201).send({message: 'Slots Added'})
    
 });

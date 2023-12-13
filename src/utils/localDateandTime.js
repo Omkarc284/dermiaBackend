@@ -104,16 +104,16 @@ const prevDate = async (dte) => {
 
 const onlyDate = () => {
     const d = new Date();
-    d.setHours(0)
-    d.setMinutes(0)
+    d.setHours(5)
+    d.setMinutes(30)
     d.setSeconds(0)
     d.setMilliseconds(0)
     return d
 }
 const getDate = async(dte) => {
     const d = new Date(dte);
-    d.setHours(0)
-    d.setMinutes(0)
+    d.setHours(5)
+    d.setMinutes(30)
     d.setSeconds(0)
     d.setMilliseconds(0)
     return d
