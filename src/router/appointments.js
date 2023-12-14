@@ -9,19 +9,19 @@ const { ObjectId } = require('mongodb');
 const availableSlots = require('../models/available_slots');
 
 router.post('/new', async(req, res, next) => {
-    const date = getLocalDateandTime.getDate(req.body.date)
-    const appointment = new Appointment({
-        patient:{
-            name: req.body.name,
-            phoneNumber: req.body.phoneNumber,
-            email: req.body.email,
-        },
-        branch: req.body.branch,
-        date: date,
-        timeSlot: req.body.timeSlot,
-        bookingTime: new Date(),
-        status: 'Scheduled'
-    });
+    console.log(req.body)
+    const date = await getLocalDateandTime.getDate(req.body.date)
+    const appointment = new Appointment()
+        
+    appointment.patient.name = req.body.name;
+    appointment.patient.phoneNumber= req.body.phoneNumber;
+    appointment.patient.email= req.body.email;
+    
+    appointment.branch= req.body.branch;
+    appointment.date= date;
+    appointment.timeSlot= req.body.timeSlot;
+    appointment.bookingTime= new Date();
+    appointment.status= 'Scheduled';
     
     await appointment.save().then(async (result) => {
         await availableSlots.updateOne({branch: appointment.branch, date:appointment.date},{$pull :{'slots': appointment.timeSlot}}).then((result) => {

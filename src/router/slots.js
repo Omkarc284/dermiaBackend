@@ -8,7 +8,7 @@ const getLocalDateandTime = require('../utils/localDateandTime');
 const { ObjectId } = require('mongodb');
 
 router.post('/per_branch', async(req,res,next) => {
-    const date = getLocalDateandTime.getDate(req.body.date)
+    const date = await getLocalDateandTime.getDate(req.body.date)
 
     var available_slots = await Slots.findOne({branch: req.body.branch, date: date})
     if(available_slots.slots.length > 0){
@@ -22,7 +22,7 @@ router.post('/per_branch', async(req,res,next) => {
 router.post('/populate', async(req,res,next) => {
     const date = getLocalDateandTime.onlyDate()
     var available_slots = new Slots({
-        branch : 'Karghar',
+        branch : 'Kharghar',
         date : date,
         slots : ['9','9.30','10', '10:30', '11', '11:30', '12', '12:30', '1:30', '2', '2:30', '3', '3:30']
     })
