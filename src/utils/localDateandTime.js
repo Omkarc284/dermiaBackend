@@ -118,6 +118,27 @@ const getDate = async(dte) => {
     d.setMilliseconds(0)
     return d
 }
+const nextDate = (dte) => {
+    const d = new Date(dte)
+    if(d.getDay() == 0) {
+        d.setDate(d.getDate() + 1) // if sunday then get monday
+    }
+    if(d.getDay() == 6){
+        d.setDate(d.getDate() + 2) // if saturday then get monday
+    }
+    if(d.getDay() == 5){
+        d.setDate(d.getDate() + 3) //if friday then get monday
+    }
+    else{
+        d.setDate(d.getDate() + 1); // get next day date
+    }
+    
+    d.setHours(5)
+    d.setMinutes(30)
+    d.setSeconds(0)
+    d.setMilliseconds(0)
+    return d
+}
 // const prev = async () => {
 //     var d = new Date()
 //     d.setDate(d.getDate()+3);
@@ -157,6 +178,6 @@ module.exports = {
     tojustDate,
     getJustDate,
     getSessiontime,
-    getInfiniteDate,
+    getInfiniteDate, nextDate,
     onlyDate, getDate
 };

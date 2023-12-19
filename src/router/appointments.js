@@ -1,6 +1,7 @@
 const Router = require('express').Router;
 const mongodb = require('mongodb');
 const db = require('../db/mongodb');
+const nodemailer = require('nodemailer')
 const adminAuthMiddleware = require('../middleware/adminAuth');
 const router = Router();
 const getLocalDateandTime = require('../utils/localDateandTime');
@@ -25,6 +26,25 @@ router.post('/new', async(req, res, next) => {
     
     await appointment.save().then(async (result) => {
         await availableSlots.updateOne({branch: appointment.branch, date:appointment.date},{$pull :{'slots': appointment.timeSlot}}).then((result) => {
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'labs.dermia@gmail.com',
+                    pass: 'oyafdmcmjkfcxsca'
+                }
+            })
+            const mail_option = {
+                from: "Dermia Labs <labs.dermia@gmail.com>",
+                to: `${appointment.patient.email}`,
+                subject: `Your Dermia Appointment has been booked!`,
+                text: `Hello ${appointment.patient.name}, your appointment for Dermia at the ${appointment.branch} branch. \nYou'll get a reminder call before your appointment by our executives.\n\n Appointment for: ${appointment.patient.name}\n Appointment Date: ${appointment.date.toDateString()}\n Appointment time: ${appointment.timeSlot}\n Branch: ${appointment.branch}`
+            };
+            transporter.sendMail(mail_option, (error, info)=>{
+                if (error) {
+                    res.status(500).send({message: 'Failed to send Email Notification',Error: error})
+                }
+            })
+
             res.status(201).json({message: 'Appointment created!', details: appointment})
         }).catch(err => {
             console.log(err)
