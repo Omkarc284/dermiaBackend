@@ -155,6 +155,11 @@ const getexpirationTime = (ms) => {
     const date = new Date(millis)
     return date;
 }
+const dateString = (dte) =>{
+    const d = new Date(dte);
+    const date = moment(d, 'YYYY-MM-DD')
+    return date.format('YYYY-MM-DD');
+}
 function getSessiontime(login, logout) {
     if(logout === null){
         return ('Not logged out')
@@ -177,7 +182,7 @@ module.exports = {
     toexactDateTime,
     tojustDate,
     getJustDate,
-    getSessiontime,
+    getSessiontime, dateString,
     getInfiniteDate, nextDate,
     onlyDate, getDate
 };

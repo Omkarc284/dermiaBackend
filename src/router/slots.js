@@ -83,5 +83,16 @@ router.post('/populate_week', async(req,res,next) => {
     
    
 });
+router.get('/enabled_dates', async(req, res, next) => {
+    let enabled_dates = new Set()
+    const arr = await Slots.find()
+    arr.forEach(doc => {
+        const d = getLocalDateandTime.dateString(doc.date)
+        enabled_dates.add(d)
+    })
+    const enabled = Array.from(enabled_dates)
+    res.status(200).send({enabled: enabled})
+    
+})
 
 module.exports = router
