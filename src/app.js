@@ -8,6 +8,12 @@ const slotRouter = require('./router/slots')
 const branchRouter = require('./router/branches')
 const app = express();
 
+const corsOptions = {
+  origin: 'http://localhost:5501/',
+  optionsSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
@@ -18,7 +24,7 @@ app.use((req, res, next) => {
       'Access-Control-Allow-Methods',
       'GET,POST,PUT,PATCH,DELETE,OPTIONS'
     );
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Auth-Token');
     next();
 });
 
