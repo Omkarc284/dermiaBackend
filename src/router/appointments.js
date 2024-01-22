@@ -78,14 +78,20 @@ router.post('/by_branch', async(req, res, next)=>{
     }
 })
 router.post('/by_date', async(req, res, next)=>{
-    const date = getLocalDateandTime.getDate(req.body.date)
-    let appointments = await Appointment.find({date: date})
-    console.log(appointments)
-    if (appointments !== undefined || null) {
+    var appointments = []
+    let date = new Date(getLocalDateandTime.getDate(req.body.date))
+    try {
+        const data = await Appointment.find({date: date})
+        data.forEach(appointment => {
+            appointments.push(appointment)
+        })
         res.status(200).send({appointments: appointments})
-    }else {
-        res.status(500).send({Error: "Something went wrong"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({error: error})
     }
+    
+    
 })
 
 router.post('/update', async(req, res, next)=>{
@@ -108,10 +114,14 @@ router.post('/update', async(req, res, next)=>{
         res.status(500).send({Error:"Failed to update the appointment", ErrorObj: err})
     })
 })
-router.delete('/:id',adminAuthMiddleware, async (req,res,next) => {
-    await Appointment.deleteOne({_id: new ObjectId(req.body._id)}).then(() => {
+router.delete('/:id', async (req,res,next) => {
+    console.log("Api hit")
+    await Appointment.deleteOne({_id: new ObjectId(req.params.id)}).then(() => {
         console.log("Appointment deleted: ")
         res.status(200).json({message: `Appointment deleted`})
+    }).catch(err => {
+        console.log(err)
+        res.status(500).send({Error:"Failed to delete the appointment", ErrorObj: err})
     })
 })
 module.exports = router

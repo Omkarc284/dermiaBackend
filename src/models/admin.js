@@ -10,9 +10,6 @@ const adminSchema = new mongoose.Schema({
         trim: true
     },
     password: { type: String, required: true},
-    contact: { type: String, required: true},
-    date_created: { type: String, required: true },
-    time_created: { type: String, required: true },
     tokens: [{
         token: {
             type: String,

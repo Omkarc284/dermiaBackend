@@ -9,10 +9,6 @@ const branchRouter = require('./router/branches')
 const cors = require('cors')
 const app = express();
 
-const corsOptions = {
-  origin: 'http://localhost:5501/',
-  optionsSuccessStatus: 200,
-}
 
 app.use(cors());
 

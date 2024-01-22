@@ -110,13 +110,13 @@ const onlyDate = () => {
     d.setMilliseconds(0)
     return d
 }
-const getDate = async(dte) => {
+const getDate = (dte) => {
     const d = new Date(dte);
     d.setHours(5)
     d.setMinutes(30)
     d.setSeconds(0)
     d.setMilliseconds(0)
-    return d
+    return new Date(d)
 }
 const nextDate = (dte) => {
     const d = new Date(dte)
